@@ -1,3 +1,3 @@
-<img src="./Resources/lorikeet.svg" width="100%"/>
+<img src="./Resources/lorikeet.svg" style="margin: 0 auto;" width="50%"/>
 
 # Lorikeet
