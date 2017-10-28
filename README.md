@@ -17,10 +17,18 @@ What can Lorikeet do for you
 ## Installation
 
 ### Carthage
+In your `Cartfile` put:
 
-### Old School
-Copy the `Lorikeet` folder 😁🗂
+```
+github "valdirunars/Lorikeet"
+```
+
+### Manual
+Copy the `./Lorikeet` folder 😁🗂
+
 ## How to Use
+
+### Basic Usage
 
 ```swift
 let red: UIColor = .red
@@ -35,6 +43,7 @@ red.lkt.generateColorScheme(numberOfColors: 40) { colors in
 ```
 
 ### Advanced
+
 Lorikeet's `Algorithm` enum has two cases for advanced usage:
     - `.advancedCIE94(l: Float, c: Float, h: Float, k1: Float, k2: Float)`
     - `.advancedCIE2000(l: Float, c: Float, h: Float)`
