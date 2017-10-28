@@ -38,11 +38,11 @@ private func pythagorasC(a: Float, b: Float) -> Float {
 /// Swiftified version of Bruce Lindbloom's math equation for Delta E
 /// http://www.brucelindbloom.com/index.html?Eqn_DeltaE_CIE94.html
 internal func CIE94SquaredColorDifference(
-    _ kL: Float = 1,
+    kL: Float = 1,
     kC: Float = 1,
     kH: Float = 1,
-    K1: Float = 0.045,
-    K2: Float = 0.015
+    k1: Float = 0.045,
+    k2: Float = 0.015
     ) -> (_ lab1: LabVector, _ lab2: LabVector) -> Float {
     
     return { (lab1: LabVector, lab2: LabVector) -> Float in
@@ -62,8 +62,8 @@ internal func CIE94SquaredColorDifference(
         let deltaH = sqrt(pow(a1 - a2, 2) + pow(b1 - b2, 2) - pow(deltaC, 2))
         
         let sl: Float = 1
-        let sc = 1 + K1 * c1
-        let sh = 1 + K2 * c1
+        let sc = 1 + k1 * c1
+        let sh = 1 + k2 * c1
         
         return pow(deltaL / (kL * sl), 2) + pow(deltaC / (kC * sc), 2) + pow(deltaH / (kH * sh), 2)
     }

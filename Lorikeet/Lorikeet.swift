@@ -86,6 +86,10 @@ public struct Lorikeet {
             return CIE94SquaredColorDifference()(lab1, lab2)
         case .cie2000:
             return CIE2000SquaredColorDifference()(lab1, lab2)
+        case .advancedCIE94(l: let l, c: let c, h: let h, k1: let k1, k2: let k2):
+            return CIE94SquaredColorDifference(kL: l, kC: c, kH: h, k1: k1, k2: k2)(lab1, lab2)
+        case .advancedCIE2000(l: let l, c: let c, h: let h):
+            return CIE2000SquaredColorDifference(kL: l, kC: c, kH: h)(lab1, lab2)
         }
     }
     
@@ -104,33 +108,48 @@ public struct Lorikeet {
         return UIColor(red: red / twoFiftyFive, green: green / twoFiftyFive, blue: blue / twoFiftyFive, alpha: rgba[3])
     }
     
-    public func generateColorScheme(numberOfColors: Int) -> [UIColor] {
-        var colors: [UIColor] = []
+    public func generateColorScheme(numberOfColors: Int, using algorithm: Algorithm = .cie2000, completion: (([UIColor]) -> Void)? = nil) {
+        var colors: [UIColor] = [ self.color ]
+
         if numberOfColors == 0 {
-            return colors
+            completion?(colors)
+            return
         }
         
-        var minDifference: Float = 50.0
-        let maxRetries = 30
+        var minColorDistance: Float = 45.0
+        let maxRetries = 20
         var retries = 0
 
-        var offset: Float = 1
-        let minOffset: Float = 0.75
+        var offset: Float = 1.5
+        
+        let offsetOffset: Float = 0.01
+
+        let minOffset: Float = offset - Float(maxRetries) * offsetOffset
         
         while colors.count != numberOfColors {
             let color = self.generateRandomMatchingColor()
             
-            if color.lkt.distance(to: self.color, algorithm: .cie2000)/100.0 < minDifference {
+            
+            var minDistance: Float = 1_000_000 // just some high number
+
+            for col in colors {
+                let distance = col.lkt.distance(to: color, algorithm: algorithm)
+                if minDistance > distance {
+                    minDistance = distance
+                }
+            }
+            
+            if minDistance < minColorDistance {
 
                 retries = retries + 1
 
                 if retries == maxRetries {
 //                    print("failed to get colors with diff: \(minDifference)")
                     retries = 0
-                    minDifference -= offset
+                    minColorDistance -= offset
                     
                     if offset > minOffset {
-                        offset -= 0.01
+                        offset -= offsetOffset
                     }
                 }
 
@@ -140,6 +159,6 @@ public struct Lorikeet {
             
         }
 
-        return colors
+        completion?(colors)
     }
 }
