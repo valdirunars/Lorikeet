@@ -75,7 +75,7 @@ public struct Lorikeet {
         return (l, a, b)
     }
     
-    func distance(to otherColor: UIColor, algorithm: Algorithm) -> Float {
+    public func distance(to otherColor: UIColor, algorithm: Algorithm) -> Float {
         let lab1 = Lorikeet.lab(for: self.color)
         let lab2 = Lorikeet.lab(for: otherColor)
         
@@ -87,6 +87,59 @@ public struct Lorikeet {
         case .cie2000:
             return CIE2000SquaredColorDifference()(lab1, lab2)
         }
+    }
+    
+    public func generateRandomMatchingColor() -> UIColor {
+        var red: CGFloat = CGFloat(arc4random() % 256)
+        var green: CGFloat = CGFloat(arc4random() % 256)
+        var blue: CGFloat = CGFloat(arc4random() % 256)
         
+        let rgba = Lorikeet.rgba(for: self.color).map { CGFloat($0) }
+        
+        red = (rgba[0] + red) / CGFloat(2.0)
+        green = (rgba[1] + green) / CGFloat(2.0)
+        blue = (rgba[2] + blue) / CGFloat(2.0)
+        
+        let twoFiftyFive: CGFloat = 255.0
+        return UIColor(red: red / twoFiftyFive, green: green / twoFiftyFive, blue: blue / twoFiftyFive, alpha: rgba[3])
+    }
+    
+    public func generateColorScheme(numberOfColors: Int) -> [UIColor] {
+        var colors: [UIColor] = []
+        if numberOfColors == 0 {
+            return colors
+        }
+        
+        var minDifference: Float = 50.0
+        let maxRetries = 30
+        var retries = 0
+
+        var offset: Float = 1
+        let minOffset: Float = 0.75
+        
+        while colors.count != numberOfColors {
+            let color = self.generateRandomMatchingColor()
+            
+            if color.lkt.distance(to: self.color, algorithm: .cie2000)/100.0 < minDifference {
+
+                retries = retries + 1
+
+                if retries == maxRetries {
+//                    print("failed to get colors with diff: \(minDifference)")
+                    retries = 0
+                    minDifference -= offset
+                    
+                    if offset > minOffset {
+                        offset -= 0.01
+                    }
+                }
+
+            } else {
+                colors.append(color)
+            }
+            
+        }
+
+        return colors
     }
 }

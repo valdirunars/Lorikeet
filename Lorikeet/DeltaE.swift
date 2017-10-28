@@ -76,6 +76,15 @@ internal func CIE2000SquaredColorDifference(
     ) -> (_ lab1: LabVector, _ lab2: LabVector) -> Float {
     
     return { (lab1: LabVector, lab2: LabVector) -> Float in
+        // some utils
+        let zero: Float = 0
+        let one: Float = 1
+        let two: Float = 2
+        let seven: Float = 7
+        let twentyFive: Float = 25
+        let oneEighty: Float = 180
+        let threeSixty: Float = 360
+        
         let l1 = lab1.l
         let a1 = lab1.a
         let b1 = lab1.b
@@ -85,72 +94,72 @@ internal func CIE2000SquaredColorDifference(
         let b2 = lab2.b
         
         let deltaLp = l2 - l1
-        let lbp = (l1 + l2) / 2
+        let lbp = (l1 + l2) / two
         
         let (c1, c2) = (pythagorasC(a: a1, b: b1), pythagorasC(a: a2, b: b2))
-        let cb = (c1 + c2) / 2
+        let cb = (c1 + c2) / two
         
-        let G = (1 - sqrt(pow(cb, 7) / (pow(cb, 7) + pow(25, 7)))) / 2
+        let G = (one - sqrt(pow(cb, seven) / (pow(cb, seven) + pow(twentyFive, seven)))) / two
         let ap: (Float) -> Float = { a in
-            return a * (1 + G)
+            return a * (one + G)
         }
         let (a1p, a2p) = (ap(a1), ap(a2))
         
         let (c1p, c2p) = (pythagorasC(a: a1p, b: b1), pythagorasC(a: a2p, b: b2))
         let deltaCp = c2p - c1p
-        let cbp = (c1p + c2p) / 2
+        let cbp = (c1p + c2p) / two
         
-        let hp: (Float, Float) -> Float = { ap, b in
-            if ap == 0 && b == 0 { return 0 }
+        let hp: (Float, Float) -> Float = { ap, b -> Float in
+            if ap == zero && b == zero { return zero }
             let theta = (atan2(b, ap)).radiansToDegrees
-            return fmod(theta < 0 ? (theta + 360) : theta, 360)
+            return fmod(theta < zero ? (theta + threeSixty) : theta, threeSixty)
         }
         let (h1p, h2p) = (hp(a1p, b1), hp(a2p, b2))
         let deltaHabs = abs(h1p - h2p)
         
         let hpDiff: Float = {
-            if (c1p == 0 || c2p == 0) {
-                return 0
-            } else if deltaHabs <= 180 {
+            if (c1p == zero || c2p == zero) {
+                return zero
+            } else if deltaHabs <= oneEighty {
                 return h2p - h1p
             } else if h2p <= h1p {
-                return h2p - h1p + 360
+                return h2p - h1p + threeSixty
             } else {
-                return h2p - h1p - 360
+                return h2p - h1p - threeSixty
             }
         }()
         
-        let deltaHp = 2 * sqrt(c1p * c2p) * sin((hpDiff / 2).degreesToRadians)
+        let deltaHp = two * sqrt(c1p * c2p) * sin((hpDiff / two).degreesToRadians)
         let hbp: Float = {
-            if (c1p == 0 || c2p == 0) {
+            if (c1p == zero || c2p == zero) {
                 return h1p + h2p
-            } else if deltaHabs > 180 {
-                return (h1p + h2p + 360) / 2
+            } else if deltaHabs > oneEighty {
+                return (h1p + h2p + threeSixty) / two
             } else {
-                return (h1p + h2p) / 2
+                return (h1p + h2p) / two
             }
         }()
         
-        var t = 1
+        var t = one
             - 0.17 * cos((hbp - 30).degreesToRadians)
-            + 0.24 * cos((2 * hbp).degreesToRadians)
+            + 0.24 * cos((two * hbp).degreesToRadians)
         
         t = t
             + 0.32 * cos((3 * hbp + 6).degreesToRadians)
             - 0.20 * cos((4 * hbp - 63).degreesToRadians)
         
-        let sl = 1 + (0.015 * pow(lbp - 50, 2)) / sqrt(20 + pow(lbp - 50, 2))
-        let sc = 1 + 0.045 * cbp
-        let sh = 1 + 0.015 * cbp * t
+        let sl = one + (0.015 * pow(lbp - 50, two)) / sqrt(20 + pow(lbp - 50, two))
+        let sc = one + 0.045 * cbp
+        let sh = one + 0.015 * cbp * t
         
-        let deltaTheta = 30 * exp(-pow((hbp - 275) / 25, 2))
-        let rc = 2 * sqrt(pow(cbp, 7) / (pow(cbp, 7) + pow(25, 7)))
-        let rt = -rc * sin((2 * deltaTheta).degreesToRadians)
+        let deltaTheta = 30 * exp(-pow((hbp - 275) / twentyFive, two))
+        let rc = two * sqrt(pow(cbp, seven) / (pow(cbp, seven) + pow(twentyFive, seven)))
+        let rt = -rc * sin((two * deltaTheta).degreesToRadians)
         
         let lTerm = deltaLp / (kL * sl)
         let cTerm = deltaCp / (kC * sc)
         let hTerm = deltaHp / (kH * sh)
-        return pow(lTerm, 2) + pow(cTerm, 2) + pow(hTerm, 2) + rt * cTerm * hTerm
+        return pow(lTerm, two) + pow(cTerm, two) + pow(hTerm, two) + rt * cTerm * hTerm
     }
 }
 

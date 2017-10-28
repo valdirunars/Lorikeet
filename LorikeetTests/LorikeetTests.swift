@@ -21,15 +21,36 @@ class LorikeetTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testAlgorithm() {
+        let red: UIColor = .red
+        let green: UIColor = .green
+        let blue: UIColor = .blue
+
+        var diff = abs(red.lkt.distance(to: red, algorithm: .cie2000))
+        XCTAssert(diff == 0)
+        
+        diff = abs(green.lkt.distance(to: green, algorithm: .cie2000))
+        XCTAssert(diff == 0)
+        
+        diff = abs(blue.lkt.distance(to: blue, algorithm: .cie2000))
+        XCTAssert(diff == 0)
+        
+        diff = red.lkt.distance(to: green, algorithm: .cie2000)
+        XCTAssert(diff > 0)
+        
+        diff = red.lkt.distance(to: blue, algorithm: .cie2000)
+        XCTAssert(diff > 0)
+        
+        diff = green.lkt.distance(to: blue, algorithm: .cie2000)
+        XCTAssert(diff > 0)
+        
     }
     
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {
             // Put the code you want to measure the time of here.
+            UIColor.red.lkt.generateColorScheme(numberOfColors: 100)
         }
     }
     
