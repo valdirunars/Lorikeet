@@ -18,8 +18,8 @@ internal extension FloatingPoint {
 
 internal typealias LabVector = (l: Float, a: Float, b: Float)
 
-// From http://www.brucelindbloom.com/index.html?Eqn_DeltaE_CIE76.html
-internal func CIE76SquaredColorDifference(_ lab1: LabVector, lab2: LabVector) -> Float {
+/// From http://www.brucelindbloom.com/index.html?Eqn_DeltaE_CIE76.html
+internal func CIE76SquaredColorDifference(lab1: LabVector, lab2: LabVector) -> Float {
     let l1 = lab1.l
     let a1 = lab1.a
     let b1 = lab1.b
@@ -31,12 +31,12 @@ internal func CIE76SquaredColorDifference(_ lab1: LabVector, lab2: LabVector) ->
     return pow(l2 - l1, 2) + pow(a2 - a1, 2) + pow(b2 - b1, 2)
 }
 
-private func pythagorasC(_ a: Float, b: Float) -> Float {
+private func pythagorasC(a: Float, b: Float) -> Float {
     return sqrt(pow(a, 2) + pow(b, 2))
 }
 
-// Swiftified version of Bruce Lindbloom's math equation for Delta E
-// http://www.brucelindbloom.com/index.html?Eqn_DeltaE_CIE94.html
+/// Swiftified version of Bruce Lindbloom's math equation for Delta E
+/// http://www.brucelindbloom.com/index.html?Eqn_DeltaE_CIE94.html
 internal func CIE94SquaredColorDifference(
     _ kL: Float = 1,
     kC: Float = 1,
@@ -56,7 +56,7 @@ internal func CIE94SquaredColorDifference(
         
         let deltaL = l1 - l2
         
-        let (c1, c2) = (pythagorasC(a1, b: b1), pythagorasC(a2, b: b2))
+        let (c1, c2) = (pythagorasC(a: a1, b: b1), pythagorasC(a: a2, b: b2))
         let deltaC = c1 - c2
         
         let deltaH = sqrt(pow(a1 - a2, 2) + pow(b1 - b2, 2) - pow(deltaC, 2))
@@ -70,12 +70,12 @@ internal func CIE94SquaredColorDifference(
 }
 
 internal func CIE2000SquaredColorDifference(
-    _ kL: Float = 1,
+    kL: Float = 1,
     kC: Float = 1,
     kH: Float = 1
-    ) -> (_ lab1:LabVector, _ lab2:LabVector) -> Float {
+    ) -> (_ lab1: LabVector, _ lab2: LabVector) -> Float {
     
-    return { (lab1:LabVector, lab2:LabVector) -> Float in
+    return { (lab1: LabVector, lab2: LabVector) -> Float in
         let l1 = lab1.l
         let a1 = lab1.a
         let b1 = lab1.b
@@ -87,7 +87,7 @@ internal func CIE2000SquaredColorDifference(
         let deltaLp = l2 - l1
         let lbp = (l1 + l2) / 2
         
-        let (c1, c2) = (pythagorasC(a1, b: b1), pythagorasC(a2, b: b2))
+        let (c1, c2) = (pythagorasC(a: a1, b: b1), pythagorasC(a: a2, b: b2))
         let cb = (c1 + c2) / 2
         
         let G = (1 - sqrt(pow(cb, 7) / (pow(cb, 7) + pow(25, 7)))) / 2
@@ -96,7 +96,7 @@ internal func CIE2000SquaredColorDifference(
         }
         let (a1p, a2p) = (ap(a1), ap(a2))
         
-        let (c1p, c2p) = (pythagorasC(a1p, b: b1), pythagorasC(a2p, b: b2))
+        let (c1p, c2p) = (pythagorasC(a: a1p, b: b1), pythagorasC(a: a2p, b: b2))
         let deltaCp = c2p - c1p
         let cbp = (c1p + c2p) / 2
         

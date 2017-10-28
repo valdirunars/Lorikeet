@@ -9,24 +9,36 @@
 import UIKit
 
 public struct Lorikeet {
+    let color: UIColor
     
+    init(_ color: UIColor) {
+        self.color = color
+    }
+
     private static func rgba(for color: UIColor) -> [Float] {
         var rgba: [CGFloat] = [0,0,0,0]
         color.getRed(&rgba[0], green: &rgba[1], blue: &rgba[2], alpha: &rgba[3])
-        return rgba.map { Float($0) }
+        return rgba.map { float -> Float in Float(float) }
     }
-    
-    private static func xyz(for color: UIColor) -> [Float] {
+
+    private static func xyz(for uiColor: UIColor) -> [Float] {
         
-        let rgba = Lorikeet.rgba(for: color)
+        let rgba: [Float] = Lorikeet.rgba(for: uiColor)
         
-        let xyz_helper: (Float) -> Float = { c in
-            return (0.04045 < c ? pow((c + 0.055)/1.055, 2.4) : c/12.92) * 100
+        let xyz_helper: (Float) -> Float = { c -> Float in
+            let k1: Float = 0.04045
+            let k2: Float = 0.055
+            let k3: Float = 1.055
+            let k4: Float = 2.4
+            let k5: Float = 12.92
+            let aHundred: Float = 100
+
+            return (k1 < c ? pow((c + k2)/k3, k4) : c/k5) * aHundred
         }
         
-        let r = xyz_helper(rgba[0])
-        let g = xyz_helper(rgba[1])
-        let b = xyz_helper(rgba[2])
+        let r: Float = xyz_helper(rgba[0])
+        let g: Float = xyz_helper(rgba[1])
+        let b: Float = xyz_helper(rgba[2])
         
         let x: Float = (r * 0.4124) + (g * 0.3576) + (b * 0.1805)
         let y: Float = (r * 0.2126) + (g * 0.7152) + (b * 0.0722)
@@ -39,13 +51,22 @@ public struct Lorikeet {
         
         let xyz = Lorikeet.xyz(for: color)
         
-        let lab_helper: (Float) -> Float = { c in
-            return 0.008856 < c ? pow(c, 1/3) : ((7.787 * c) + (16/116))
-        }
+        let lab_helper: (Float) -> Float = { c -> Float in
+            let k1: Float = 0.008856
+            let k2: Float = 7.787
+            let aThird: Float = 1.0/3.0
+            let sixteenOverOneSixteen: Float = 16.0 / 116.0
 
-        let x: Float = lab_helper(xyz[0]/95.047)
-        let y: Float = lab_helper(xyz[1]/100.0)
-        let z: Float = lab_helper(xyz[2]/108.883)
+            return k1 < c ? pow(c, aThird) : ((k2 * c) + sixteenOverOneSixteen)
+        }
+        
+        let k1: Float = 95.047
+        let k2: Float = 100.0
+        let k3: Float = 108.883
+        
+        let x: Float = lab_helper(xyz[0]/k1)
+        let y: Float = lab_helper(xyz[1]/k2)
+        let z: Float = lab_helper(xyz[2]/k3)
         
         let l: Float = (116 * y) - 16
         let a: Float = 500 * (x - y)
@@ -54,13 +75,13 @@ public struct Lorikeet {
         return (l, a, b)
     }
     
-    static func colorDifference(leftColor: UIColor, rightColor: UIColor, algorithm: Algorithm) -> Float {
-        let lab1 = lab(for: leftColor)
-        let lab2 = lab(for: rightColor)
+    func distance(to otherColor: UIColor, algorithm: Algorithm) -> Float {
+        let lab1 = Lorikeet.lab(for: self.color)
+        let lab2 = Lorikeet.lab(for: otherColor)
         
         switch algorithm {
         case .cie76:
-            return CIE76SquaredColorDifference(lab1, lab2: lab2)
+            return CIE76SquaredColorDifference(lab1: lab1, lab2: lab2)
         case .cie94:
             return CIE94SquaredColorDifference()(lab1, lab2)
         case .cie2000:
