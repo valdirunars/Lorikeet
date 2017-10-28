@@ -45,9 +45,13 @@ red.lkt.generateColorScheme(numberOfColors: 40) { colors in
 ### Advanced
 
 Lorikeet's `Algorithm` enum has two cases for advanced usage:
-    - `.advancedCIE94(l: Float, c: Float, h: Float, k1: Float, k2: Float)`
-    - `.advancedCIE2000(l: Float, c: Float, h: Float)`
+```swift
+.advancedCIE94(l: Float, c: Float, h: Float, k1: Float, k2: Float)
+```
 
+```swift
+.advancedCIE2000(l: Float, c: Float, h: Float)
+```
 Example:
 ```swift
 let l: Float = 0.8
