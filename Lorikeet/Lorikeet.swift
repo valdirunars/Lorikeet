@@ -93,10 +93,10 @@ public struct Lorikeet {
         }
     }
     
-    public func generateRandomMatchingColor() -> UIColor {
-        var red: CGFloat = CGFloat(arc4random() % 256)
-        var green: CGFloat = CGFloat(arc4random() % 256)
-        var blue: CGFloat = CGFloat(arc4random() % 256)
+    public func generateRandomMatchingColor(brightnessFactor: CGFloat = 1) -> UIColor {
+        var red: CGFloat = CGFloat(arc4random() % 127) + (127 * brightnessFactor)
+        var green: CGFloat = CGFloat(arc4random() % 256) + (127 * brightnessFactor)
+        var blue: CGFloat = CGFloat(arc4random() % 256) + (127 * brightnessFactor)
         
         let rgba = Lorikeet.rgba(for: self.color).map { CGFloat($0) }
         
@@ -108,7 +108,7 @@ public struct Lorikeet {
         return UIColor(red: red / twoFiftyFive, green: green / twoFiftyFive, blue: blue / twoFiftyFive, alpha: rgba[3])
     }
     
-    public func generateColorScheme(numberOfColors: Int, using algorithm: Algorithm = .cie2000, completion: (([UIColor]) -> Void)? = nil) {
+    public func generateColorScheme(numberOfColors: Int, brightnessFactor: Float = 1, using algorithm: Algorithm = .cie2000, completion: (([UIColor]) -> Void)? = nil) {
         var colors: [UIColor] = [ self.color ]
 
         if numberOfColors == 0 {
@@ -127,7 +127,7 @@ public struct Lorikeet {
         let minOffset: Float = offset - Float(maxRetries) * offsetOffset
         
         while colors.count != numberOfColors {
-            let color = self.generateRandomMatchingColor()
+            let color = self.generateRandomMatchingColor(brightnessFactor: CGFloat(brightnessFactor))
             
             
             var minDistance: Float = 1_000_000 // just some high number

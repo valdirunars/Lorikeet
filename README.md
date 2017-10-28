@@ -4,6 +4,11 @@
 
 Lightweight framework for generating complimentary color-schemes in Swift
 
+## Requirements
+
+- Swift 3
+- UIKit
+
 ## Features
 What can Lorikeet do for you
 
