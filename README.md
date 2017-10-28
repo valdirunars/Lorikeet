@@ -1,4 +1,2 @@
-# Lorikeet</h1>
-<div style="background-color: red">
-    <img src="./Resources/lorikeet.svg"/>
-</div>
+<img src="./Resources/lorikeet.svg" width="100%"/>
+# Lorikeet
