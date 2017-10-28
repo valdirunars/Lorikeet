@@ -11,6 +11,9 @@
 		38C983171FA3E6580049789B /* LorikeetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C983161FA3E6580049789B /* LorikeetTests.swift */; };
 		38C983191FA3E6580049789B /* Lorikeet.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9830B1FA3E6570049789B /* Lorikeet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38C983231FA3E7350049789B /* DeltaE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C983221FA3E7350049789B /* DeltaE.swift */; };
+		38C983251FA40CB90049789B /* Algorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C983241FA40CB90049789B /* Algorithm.swift */; };
+		38C983271FA40D1B0049789B /* UIColor+colorDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C983261FA40D1B0049789B /* UIColor+colorDiff.swift */; };
+		38C983291FA40D590049789B /* Lorikeet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C983281FA40D590049789B /* Lorikeet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +34,9 @@
 		38C983161FA3E6580049789B /* LorikeetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LorikeetTests.swift; sourceTree = "<group>"; };
 		38C983181FA3E6580049789B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		38C983221FA3E7350049789B /* DeltaE.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeltaE.swift; sourceTree = "<group>"; };
+		38C983241FA40CB90049789B /* Algorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Algorithm.swift; sourceTree = "<group>"; };
+		38C983261FA40D1B0049789B /* UIColor+colorDiff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+colorDiff.swift"; sourceTree = "<group>"; };
+		38C983281FA40D590049789B /* Lorikeet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lorikeet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +82,9 @@
 				38C9830B1FA3E6570049789B /* Lorikeet.h */,
 				38C9830C1FA3E6570049789B /* Info.plist */,
 				38C983221FA3E7350049789B /* DeltaE.swift */,
+				38C983241FA40CB90049789B /* Algorithm.swift */,
+				38C983261FA40D1B0049789B /* UIColor+colorDiff.swift */,
+				38C983281FA40D590049789B /* Lorikeet.swift */,
 			);
 			path = Lorikeet;
 			sourceTree = "<group>";
@@ -202,7 +211,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38C983251FA40CB90049789B /* Algorithm.swift in Sources */,
 				38C983231FA3E7350049789B /* DeltaE.swift in Sources */,
+				38C983291FA40D590049789B /* Lorikeet.swift in Sources */,
+				38C983271FA40D1B0049789B /* UIColor+colorDiff.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,6 +424,7 @@
 				38C9831E1FA3E6580049789B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		38C9831F1FA3E6580049789B /* Build configuration list for PBXNativeTarget "LorikeetTests" */ = {
 			isa = XCConfigurationList;
@@ -420,6 +433,7 @@
 				38C983211FA3E6580049789B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

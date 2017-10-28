@@ -1,0 +1,10 @@
+framework module Lorikeet {
+  umbrella header "Lorikeet.h"
+
+  export *
+  module * { export * }
+}
+
+module Lorikeet.Swift {
+    header "Lorikeet-Swift.h"
+}
