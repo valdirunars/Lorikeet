@@ -11,6 +11,7 @@ import UIKit
 public enum ColorType {
     case flat(brightnessFactor: Float)
     case pastel(brightnessFactor: Float)
+    case custom(saturation: Float, brightnessFactor: Float)
     
     public var saturation: Float {
         switch self {
@@ -18,6 +19,8 @@ public enum ColorType {
             return 0.5
         case .pastel:
             return 0.3
+        case .custom(saturation: let saturation, brightnessFactor: _):
+            return saturation
         }
     }
     
@@ -25,7 +28,9 @@ public enum ColorType {
         switch self {
             case .flat(brightnessFactor: let brightness),
                  .pastel(brightnessFactor: let brightness):
-            return brightness
+                return brightness
+            case .custom(saturation: _, brightnessFactor: let bright):
+                return bright
         }
     }
 }
@@ -116,48 +121,6 @@ public struct Lorikeet {
     }
     
     public func generateRandomMatchingColor(colorType: ColorType = .flat(brightnessFactor: 1)) -> UIColor {
-//        let twoFiftyFive: CGFloat = 255.0
-//
-//        var red: CGFloat
-//        var green: CGFloat
-//        var blue: CGFloat
-//
-//        switch colorType {
-//        case .flat(brightnessFactor: let brightnessFactor):
-//            var rgOrB = Int(arc4random() % 3)
-//            var redAddition: CGFloat = rgOrB == 0 ? 63.5 : 0
-//            var greenAddition: CGFloat = rgOrB == 1 ? 63.5 : 0
-//            var blueAddition: CGFloat = rgOrB == 2 ? 63.5 : 0
-//
-//            let next = (rgOrB + Int(arc4random() % 3)) % 3
-//            if next != rgOrB {
-//                rgOrB = next
-//                redAddition = redAddition + (rgOrB == 0 ? 63.5 : 0)
-//                greenAddition = greenAddition + (rgOrB == 1 ? 63.5 : 0)
-//                blueAddition = blueAddition + (rgOrB == 2 ? 63.5 : 0)
-//            }
-//
-//            redAddition *= CGFloat(brightnessFactor)
-//            greenAddition *= CGFloat(brightnessFactor)
-//            blueAddition *= CGFloat(brightnessFactor)
-//            
-//            red = CGFloat(arc4random() % 127) + (127 * CGFloat(brightnessFactor)) + redAddition
-//            green = CGFloat(arc4random() % 127) + (127 * CGFloat(brightnessFactor)) + greenAddition
-//            blue = CGFloat(arc4random() % 127) + (127 * CGFloat(brightnessFactor)) + blueAddition
-//        case .pastel(brightnessFactor: let brightnessFactor):
-//            
-//            red = CGFloat(arc4random() % 127) + (127 * CGFloat(brightnessFactor))
-//            green = CGFloat(arc4random() % 127) + (127 * CGFloat(brightnessFactor))
-//            blue = CGFloat(arc4random() % 127) + (127 * CGFloat(brightnessFactor))
-//        }
-//        
-//        let rgba = Lorikeet.rgba(for: self.color).map { CGFloat($0) }
-//        
-//        red = (rgba[0] + red) / CGFloat(2.0)
-//        green = (rgba[1] + green) / CGFloat(2.0)
-//        blue = (rgba[2] + blue) / CGFloat(2.0)
-//        
-//        return UIColor(red: red / twoFiftyFive, green: green / twoFiftyFive, blue: blue / twoFiftyFive, alpha: rgba[3])
         
         return Utils.hsv2Color(h: CGFloat(Float(arc4random()) / Float(UINT32_MAX)),
                                s: CGFloat(colorType.saturation),
