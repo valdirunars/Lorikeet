@@ -47,14 +47,18 @@ class LorikeetTests: XCTestCase {
     }
     
     func testPerformanceExample() {
+        let exp = expectation(description: "Time")
         // This is an example of a performance test case.
         self.measure {
             // Put the code you want to measure the time of here.
             let red: UIColor = .red
             red.lkt.generateColorScheme(numberOfColors: 40) { colors in
                 print(colors)
+                print("")
             }
         }
+        
+        waitForExpectations(timeout: 10)
     }
     
 }

@@ -8,6 +8,11 @@
 
 import UIKit
 
+public enum ColorType {
+    case flat(brightnessFactor: Float)
+    case pastel(brightnessFactor: Float)
+}
+
 public struct Lorikeet {
     let color: UIColor
     
@@ -93,10 +98,30 @@ public struct Lorikeet {
         }
     }
     
-    public func generateRandomMatchingColor(brightnessFactor: CGFloat = 1) -> UIColor {
-        var red: CGFloat = CGFloat(arc4random() % 127) + (127 * brightnessFactor)
-        var green: CGFloat = CGFloat(arc4random() % 256) + (127 * brightnessFactor)
-        var blue: CGFloat = CGFloat(arc4random() % 256) + (127 * brightnessFactor)
+    public func generateRandomMatchingColor(colorType: ColorType = .flat(brightnessFactor: 1)) -> UIColor {
+        let twoFiftyFive: CGFloat = 255.0
+
+        var red: CGFloat
+        var green: CGFloat
+        var blue: CGFloat
+
+        switch colorType {
+        case .flat(brightnessFactor: let brightnessFactor):
+            let rgOrB = Int(arc4random() % 3)
+            
+            let redAddition: CGFloat = rgOrB == 0 ? 63.5 : 0
+            let greenAddition: CGFloat = rgOrB == 1 ? 63.5 : 0
+            let blueAddition: CGFloat = rgOrB == 2 ? 63.5 : 0
+            
+            red = CGFloat(arc4random() % 127) + (127 * CGFloat(brightnessFactor)) + redAddition
+            green = CGFloat(arc4random() % 127) + (127 * CGFloat(brightnessFactor)) + greenAddition
+            blue = CGFloat(arc4random() % 127) + (127 * CGFloat(brightnessFactor)) + blueAddition
+        case .pastel(brightnessFactor: let brightnessFactor):
+            
+            red = CGFloat(arc4random() % 127) + (127 * CGFloat(brightnessFactor))
+            green = CGFloat(arc4random() % 127) + (127 * CGFloat(brightnessFactor))
+            blue = CGFloat(arc4random() % 127) + (127 * CGFloat(brightnessFactor))
+        }
         
         let rgba = Lorikeet.rgba(for: self.color).map { CGFloat($0) }
         
@@ -104,61 +129,72 @@ public struct Lorikeet {
         green = (rgba[1] + green) / CGFloat(2.0)
         blue = (rgba[2] + blue) / CGFloat(2.0)
         
-        let twoFiftyFive: CGFloat = 255.0
         return UIColor(red: red / twoFiftyFive, green: green / twoFiftyFive, blue: blue / twoFiftyFive, alpha: rgba[3])
     }
     
-    public func generateColorScheme(numberOfColors: Int, brightnessFactor: Float = 1, using algorithm: Algorithm = .cie2000, completion: (([UIColor]) -> Void)? = nil) {
-        var colors: [UIColor] = [ self.color ]
-
-        if numberOfColors == 0 {
-            completion?(colors)
-            return
-        }
-        
-        var minColorDistance: Float = 45.0
-        let maxRetries = 20
-        var retries = 0
-
-        var offset: Float = 1.5
-        
-        let offsetOffset: Float = 0.01
-
-        let minOffset: Float = offset - Float(maxRetries) * offsetOffset
-        
-        while colors.count != numberOfColors {
-            let color = self.generateRandomMatchingColor(brightnessFactor: CGFloat(brightnessFactor))
-            
-            
-            var minDistance: Float = 1_000_000 // just some high number
-
-            for col in colors {
-                let distance = col.lkt.distance(to: color, algorithm: algorithm)
-                if minDistance > distance {
-                    minDistance = distance
-                }
+    public func generateColorScheme(numberOfColors: Int,
+                                    colorType: ColorType = .flat(brightnessFactor: 1),
+                                    using algorithm: Algorithm = .cie2000,
+                                    completion: (([UIColor]) -> Void)? = nil) {
+        let complete: ([UIColor]) -> Void = { colors in
+            DispatchQueue.main.async {
+                completion?(colors)
             }
+        }
+
+        DispatchQueue.global(qos: .background).async {
+            var colors: [UIColor] = [ self.color ]
             
-            if minDistance < minColorDistance {
-
-                retries = retries + 1
-
-                if retries == maxRetries {
-//                    print("failed to get colors with diff: \(minDifference)")
-                    retries = 0
-                    minColorDistance -= offset
-                    
-                    if offset > minOffset {
-                        offset -= offsetOffset
+            if numberOfColors == 0 {
+                complete(colors)
+                return
+            }
+            let originalMinColorDistance: Float = 45.0
+            var minColorDistance: Float = originalMinColorDistance
+            let maxRetries = 20
+            var retries = 0
+            
+            var offset: Float = 1.5
+            
+            let offsetOffset: Float = 0.01
+            
+            let minOffset: Float = offset - Float(maxRetries) * offsetOffset
+            
+            while colors.count != numberOfColors {
+                let color = self.generateRandomMatchingColor(colorType: colorType)
+                
+                
+                var minDistance: Float = 1_000_000 // just some high number
+                
+                for col in colors {
+                    let distance = col.lkt.distance(to: color, algorithm: algorithm)
+                    if minDistance > distance {
+                        minDistance = distance
                     }
                 }
-
-            } else {
-                colors.append(color)
+                
+                if minDistance < minColorDistance {
+                    
+                    retries = retries + 1
+                    
+                    if retries == maxRetries {
+                        //                    print("failed to get colors with diff: \(minDifference)")
+                        retries = 0
+                        minColorDistance -= offset
+                        
+                        if offset > minOffset {
+                            offset -= offsetOffset
+                        }
+                    }
+                    
+                } else {
+                    colors.append(color)
+                    minColorDistance = originalMinColorDistance
+                }
+                
             }
             
+            complete(colors)
         }
-
-        completion?(colors)
     }
 }
