@@ -2,7 +2,7 @@
 
 # Lorikeet
 
-Lightweight framework for generating complimentary color-schemes in Swift
+Lightweight framework for generating visually aesthetic color-schemes in Swift
 
 ## Requirements
 
