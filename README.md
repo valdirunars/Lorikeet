@@ -84,6 +84,8 @@ red.lkt.generateColorScheme(numberOfColors: 5, colorType: .pastel(brightnessFact
 ### Screenshot
 
 ```swift
+let color: UIColor = UIColor.init(red: 245/255.0, green: 110/255.0, blue: 100/255.0, alpha: 1)
+
 color.lkt.generateColorScheme(numberOfColors: 10, colorType: .flat(brightnessFactor: 0.95))
 ```
 
