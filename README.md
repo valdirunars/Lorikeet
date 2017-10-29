@@ -67,4 +67,14 @@ red.lkt.generateColorScheme(numberOfColors: 40,
                             using: .advancedCIE2000(l: l, c: c, h: h)) { colors in
     print(colors)
 }
+
+// It's also possible to specify the color type
+// and brightness
+// Current possible types are .pastel and .flat
+// By default the type is .flat with a
+// brightnessFactor of 1.0
+red.lkt.generateColorScheme(numberOfColors: 5, colorType: .pastel(brightnessFactor: 0.85), using: .cie94) {
+    print($0)
+}
+
 ```
