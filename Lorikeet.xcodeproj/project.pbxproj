@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		382332941FA6577600353267 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382332931FA6577600353267 /* Utils.swift */; };
 		38C983121FA3E6580049789B /* Lorikeet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38C983081FA3E6570049789B /* Lorikeet.framework */; };
 		38C983171FA3E6580049789B /* LorikeetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C983161FA3E6580049789B /* LorikeetTests.swift */; };
 		38C983191FA3E6580049789B /* Lorikeet.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9830B1FA3E6570049789B /* Lorikeet.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -27,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		382332931FA6577600353267 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		38C983081FA3E6570049789B /* Lorikeet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Lorikeet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		38C9830B1FA3E6570049789B /* Lorikeet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Lorikeet.h; sourceTree = "<group>"; };
 		38C9830C1FA3E6570049789B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 				38C983241FA40CB90049789B /* Algorithm.swift */,
 				38C983261FA40D1B0049789B /* UIColor+colorDiff.swift */,
 				38C983281FA40D590049789B /* Lorikeet.swift */,
+				382332931FA6577600353267 /* Utils.swift */,
 			);
 			path = Lorikeet;
 			sourceTree = "<group>";
@@ -211,6 +214,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				382332941FA6577600353267 /* Utils.swift in Sources */,
 				38C983251FA40CB90049789B /* Algorithm.swift in Sources */,
 				38C983231FA3E7350049789B /* DeltaE.swift in Sources */,
 				38C983291FA40D590049789B /* Lorikeet.swift in Sources */,
