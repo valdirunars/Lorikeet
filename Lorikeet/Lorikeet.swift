@@ -122,7 +122,7 @@ public struct Lorikeet {
     
     public func generateRandomMatchingColor(colorType: ColorType = .flat(brightnessFactor: 1)) -> UIColor {
         
-        return Utils.hsv2Color(h: CGFloat(Float(arc4random()) / Float(UINT32_MAX)),
+        return Utils.hsv2Color(h: CGFloat(Float(arc4random()) / Float(UINT32_MAX)) * 360,
                                s: CGFloat(colorType.saturation),
                                v: CGFloat(colorType.brightnessFactor),
                                alpha: 1)
