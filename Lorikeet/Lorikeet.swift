@@ -126,7 +126,7 @@ public struct Lorikeet {
                 complete(colors)
                 return
             }
-            let originalMinColorDistance: Float = 100.0
+            let originalMinColorDistance: Float = 80.0
             var minColorDistance: Float = originalMinColorDistance
             let maxRetries = 30
             var retries = 0
