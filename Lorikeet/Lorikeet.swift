@@ -8,33 +8,6 @@
 
 import UIKit
 
-public enum ColorType {
-    case flat(brightnessFactor: Float)
-    case pastel(brightnessFactor: Float)
-    case custom(saturation: Float, brightnessFactor: Float)
-    
-    public var saturation: Float {
-        switch self {
-        case .flat:
-            return 0.5
-        case .pastel:
-            return 0.3
-        case .custom(saturation: let saturation, brightnessFactor: _):
-            return saturation
-        }
-    }
-    
-    public var brightnessFactor: Float {
-        switch self {
-            case .flat(brightnessFactor: let brightness),
-                 .pastel(brightnessFactor: let brightness):
-                return brightness
-            case .custom(saturation: _, brightnessFactor: let bright):
-                return bright
-        }
-    }
-}
-
 public struct Lorikeet {
     let color: UIColor
     
@@ -120,17 +93,24 @@ public struct Lorikeet {
         }
     }
     
-    public func generateRandomMatchingColor(colorType: ColorType = .flat(brightnessFactor: 1)) -> UIColor {
-        
-        return Utils.hsv2Color(h: CGFloat(Float(arc4random()) / Float(UINT32_MAX)) * 360,
-                               s: CGFloat(colorType.saturation),
-                               v: CGFloat(colorType.brightnessFactor),
-                               alpha: 1)
+    public func generateRandomMatchingColor() -> UIColor {
+
+        var hue: CGFloat = 0
+        var saturation: CGFloat = 0
+        var brightness: CGFloat = 0
+        var alpha: CGFloat = 0
+
+        self.color.getHue(&hue, saturation: &saturation,
+                          brightness: &brightness,
+                          alpha: &alpha)
+        return Utils.hsv2Color(h: CGFloat(Float(arc4random()) / Float(UINT32_MAX)),
+                               s: saturation,
+                               v: brightness,
+                               alpha: alpha)
 
     }
     
     public func generateColorScheme(numberOfColors: Int,
-                                    colorType: ColorType = .flat(brightnessFactor: 1),
                                     using algorithm: Algorithm = .cie2000,
                                     completion: (([UIColor]) -> Void)? = nil) {
         let complete: ([UIColor]) -> Void = { colors in
@@ -158,7 +138,7 @@ public struct Lorikeet {
             let minOffset: Float = offset - Float(maxRetries) * offsetOffset
             
             while colors.count != numberOfColors {
-                let color = self.color.lkt.generateRandomMatchingColor(colorType: colorType)
+                let color = self.color.lkt.generateRandomMatchingColor()
                 
                 var minDistance: Float = 1_000_000 // just some high number
                 
@@ -174,7 +154,7 @@ public struct Lorikeet {
                     retries = retries + 1
                     
                     if retries == maxRetries {
-                        //                    print("failed to get colors with diff: \(minDifference)")
+                        // print("failed to get colors with diff: \(minDifference)")
                         retries = 0
                         minColorDistance -= offset
                         
