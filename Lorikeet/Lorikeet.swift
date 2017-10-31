@@ -146,7 +146,7 @@ public struct Lorikeet {
                 complete(colors)
                 return
             }
-            let originalMinColorDistance: Float = 60.0
+            let originalMinColorDistance: Float = 100.0
             var minColorDistance: Float = originalMinColorDistance
             let maxRetries = 30
             var retries = 0
@@ -158,17 +158,7 @@ public struct Lorikeet {
             let minOffset: Float = offset - Float(maxRetries) * offsetOffset
             
             while colors.count != numberOfColors {
-                let color = colors.reduce(self.color, { (result, color) -> UIColor in
-                    let rgba1 = Lorikeet.rgba(for: result).map { CGFloat($0) }
-                    let rgba2 = Lorikeet.rgba(for: color).map { CGFloat($0) }
-                    
-                    let red: CGFloat = (rgba1[0] + rgba2[0]) / 2.0
-                    let green: CGFloat = (rgba1[1] + rgba2[1]) / 2.0
-                    let blue: CGFloat = (rgba1[2] + rgba2[2]) / 2.0
-                    let alpha: CGFloat = (rgba1[3] + rgba2[3]) / 2.0
-                    return UIColor.init(red: red, green: green, blue: blue, alpha: alpha)
-                })
-                .lkt.generateRandomMatchingColor(colorType: colorType)
+                let color = self.color.lkt.generateRandomMatchingColor(colorType: colorType)
                 
                 var minDistance: Float = 1_000_000 // just some high number
                 
