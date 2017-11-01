@@ -68,16 +68,6 @@ red.lkt.generateColorScheme(numberOfColors: 40,
     print(colors)
 }
 
-// It's also possible to specify the color type
-// and brightness
-// Current possible types are .pastel and .flat
-// and .custom(saturation: Float, brightnessFactor: Float)
-// By default the type is .flat with a
-// brightnessFactor of 1.0
-red.lkt.generateColorScheme(numberOfColors: 5, colorType: .pastel(brightnessFactor: 0.85), using: .cie94) {
-    print($0)
-}
-
 ```
 
 

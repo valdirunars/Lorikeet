@@ -10,9 +10,25 @@ import UIKit
 
 public struct Lorikeet {
     let color: UIColor
+    let saturation: CGFloat
+    let brightnessFactor: CGFloat
+    let alpha: CGFloat
     
     init(_ color: UIColor) {
+        var hue: CGFloat = 0
+        var saturation: CGFloat = 0
+        var brightness: CGFloat = 0
+        var alpha: CGFloat = 0
+        
+        color.getHue(&hue, saturation: &saturation,
+                     brightness: &brightness,
+                     alpha: &alpha)
+        
+        self.brightnessFactor = brightness
+        self.saturation = saturation
         self.color = color
+        self.alpha = alpha
+        
     }
 
     private static func rgba(for color: UIColor) -> [Float] {
@@ -94,19 +110,10 @@ public struct Lorikeet {
     }
     
     public func generateRandomMatchingColor() -> UIColor {
-
-        var hue: CGFloat = 0
-        var saturation: CGFloat = 0
-        var brightness: CGFloat = 0
-        var alpha: CGFloat = 0
-
-        self.color.getHue(&hue, saturation: &saturation,
-                          brightness: &brightness,
-                          alpha: &alpha)
         return Utils.hsv2Color(h: CGFloat(Float(arc4random()) / Float(UINT32_MAX)),
-                               s: saturation,
-                               v: brightness,
-                               alpha: alpha)
+                               s: self.saturation,
+                               v: self.brightnessFactor,
+                               alpha: self.alpha)
 
     }
     
@@ -126,7 +133,8 @@ public struct Lorikeet {
                 complete(colors)
                 return
             }
-            let originalMinColorDistance: Float = 80.0
+
+            let originalMinColorDistance: Float = 90.0
             var minColorDistance: Float = originalMinColorDistance
             let maxRetries = 30
             var retries = 0
