@@ -10,6 +10,8 @@ import UIKit
 
 public struct Lorikeet {
     let color: UIColor
+    
+    let hue: CGFloat
     let saturation: CGFloat
     let brightnessFactor: CGFloat
     let alpha: CGFloat
@@ -24,8 +26,9 @@ public struct Lorikeet {
                      brightness: &brightness,
                      alpha: &alpha)
         
-        self.brightnessFactor = brightness
+        self.hue = hue
         self.saturation = saturation
+        self.brightnessFactor = brightness
         self.color = color
         self.alpha = alpha
         
@@ -110,7 +113,11 @@ public struct Lorikeet {
     }
     
     public func generateRandomMatchingColor() -> UIColor {
-        return Utils.hsv2Color(h: CGFloat(Float(arc4random()) / Float(UINT32_MAX)),
+        let randBetween0and1 = CGFloat(Float(arc4random()) / Float(UINT32_MAX))
+        
+        let newHue = (randBetween0and1 * 0.8 + 0.1) + self.hue - 1.0
+        
+        return Utils.hsv2Color(h: newHue,
                                s: self.saturation,
                                v: self.brightnessFactor,
                                alpha: self.alpha)
