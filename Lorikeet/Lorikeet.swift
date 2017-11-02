@@ -8,6 +8,12 @@
 
 import UIKit
 
+public struct HSVRange {
+    public let hueRange: (min: CGFloat, max: CGFloat)
+    public let saturationRange: (min: CGFloat, max: CGFloat)
+    public let brightnessRange: (min: CGFloat, max: CGFloat)
+}
+
 public struct Lorikeet {
     let color: UIColor
     
@@ -15,6 +21,13 @@ public struct Lorikeet {
     let saturation: CGFloat
     let brightnessFactor: CGFloat
     let alpha: CGFloat
+    var defaultHSVRange: HSVRange {
+        return HSVRange(hueRange: (0, 1),
+                        saturationRange: (min: max(self.saturation - 0.1, 0),
+                                          max: min(self.saturation + 0.1, 1.0)),
+                        brightnessRange: (min: max(self.saturation - 0.1, 0),
+                                          max: min(self.brightnessFactor + 1, 1.0)))
+    }
     
     init(_ color: UIColor) {
         var hue: CGFloat = 0
@@ -112,20 +125,26 @@ public struct Lorikeet {
         }
     }
     
-    public func generateRandomMatchingColor() -> UIColor {
-        let randBetweenZeroAndOne: CGFloat = CGFloat(Float(arc4random()) / Float(UINT32_MAX))
-        let saturation = self.saturation - (CGFloat(Float(arc4random()) / Float(UINT32_MAX)) * 0.2) + 0.1
+    public func generateRandomMatchingColor(hsvRange: HSVRange? = nil) -> UIColor {
+        let range = hsvRange ?? self.defaultHSVRange
+
+        let randBetweenZeroAndOne: () -> CGFloat = {
+            return CGFloat(Float(arc4random()) / Float(UINT32_MAX))
+        }
         
-        return Utils.hsv2Color(h: randBetweenZeroAndOne,
-                               s: saturation,
-                               v: self.brightnessFactor,
+        return Utils.hsv2Color(h: randBetweenZeroAndOne() * range.hueRange.max + range.hueRange.min,
+                               s: randBetweenZeroAndOne() * range.saturationRange.max + range.saturationRange.min,
+                               v: randBetweenZeroAndOne() * range.brightnessRange.max + range.brightnessRange.min,
                                alpha: self.alpha)
 
     }
     
     public func generateColorScheme(numberOfColors: Int,
+                                    withRange range: HSVRange? = nil,
                                     using algorithm: Algorithm = .cie2000,
                                     completion: (([UIColor]) -> Void)? = nil) {
+        let range = range ?? self.defaultHSVRange
+
         let complete: ([UIColor]) -> Void = { colors in
             DispatchQueue.main.async {
                 completion?(colors)
@@ -152,7 +171,7 @@ public struct Lorikeet {
             let minOffset: Float = offset - Float(maxRetries) * offsetOffset
             
             while colors.count != numberOfColors {
-                let color = self.color.lkt.generateRandomMatchingColor()
+                let color = self.color.lkt.generateRandomMatchingColor(hsvRange: range)
                 
                 var minDistance: Float = 1_000_000 // just some high number
                 
