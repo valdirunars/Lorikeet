@@ -59,7 +59,7 @@ public struct Lorikeet {
 
         self.complimentaryColor = UIColor(hue: newHue,
                                           saturation: self.saturation,
-                                          brightness: 1 - self.brightnessFactor,
+                                          brightness: 1.0 - self.brightnessFactor,
                                           alpha: self.alpha)
         
     }
@@ -157,9 +157,18 @@ public struct Lorikeet {
             return CGFloat(Float(arc4random()) / Float(UINT32_MAX))
         }
         
+        let minSaturation = self.saturation - range.saturationOffset
+        let maxSaturation = self.saturation + range.saturationOffset
+        
+        let minBrightness = self.brightnessFactor - range.brightnessOffset
+        let maxBrightness = self.brightnessFactor + range.brightnessOffset
+        
+        let saturation = randBetweenZeroAndOne() * maxSaturation + minSaturation
+        let brightness = randBetweenZeroAndOne() * maxBrightness + minBrightness
+        
         return Utils.hsv2Color(h: randBetweenZeroAndOne() * range.hueRange.max + range.hueRange.min,
-                               s: randBetweenZeroAndOne() * (self.saturation + range.saturationOffset) + self.saturation - range.saturationOffset,
-                               v: randBetweenZeroAndOne() * (self.brightnessFactor + range.brightnessOffset) + self.brightnessFactor - range.brightnessOffset,
+                               s: saturation,
+                               v: brightness,
                                alpha: self.alpha)
 
     }
@@ -184,9 +193,9 @@ public struct Lorikeet {
                 return
             }
 
-            let originalMinColorDistance: Float = 100.0
+            let originalMinColorDistance: Float = 90.0
             var minColorDistance: Float = originalMinColorDistance
-            let maxRetries = 40
+            let maxRetries = 50
             var retries = 0
             
             let offset: Float = 1
