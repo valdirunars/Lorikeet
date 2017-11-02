@@ -118,7 +118,7 @@ public struct Lorikeet {
         
         return Utils.hsv2Color(h: randBetweenZeroAndOne,
                                s: saturation,
-                               v: self.brightnessFactor,
+                               v: CGFloat(Float(arc4random()) / Float(UINT32_MAX)),
                                alpha: self.alpha)
 
     }
