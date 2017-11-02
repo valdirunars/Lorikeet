@@ -38,6 +38,12 @@ Copy the `./Lorikeet` folder 😁🗂
 ```swift
 let red: UIColor = .red
 
+let label = UILabel()
+label.backgroundColor = red
+
+// Assign a maximum contrasting color as foreground color
+label.textColor = red.lkt.complimentaryColor
+
 // Visual color difference
 let distance: Float = red.distance(to: .blue, algorithm: .cie2000)
 
@@ -57,7 +63,9 @@ Lorikeet's `Algorithm` enum has two cases for advanced usage:
 ```swift
 .advancedCIE2000(l: Float, c: Float, h: Float)
 ```
+
 Example:
+
 ```swift
 let l: Float = 0.8
 let c: Float = 0.9
@@ -68,6 +76,15 @@ red.lkt.generateColorScheme(numberOfColors: 40,
     print(colors)
 }
 
+let range = HSVRange(hueRange: (0, 1),
+         saturationRange: (0.5, 0.5),
+         brightnessRange: (0.95, 0.95))
+
+color.lkt.generateColorScheme(numberOfColors: 15,
+                              withRange: range,
+                              using: .cie2000) {
+    colors in
+}
 ```
 
 
@@ -76,7 +93,7 @@ red.lkt.generateColorScheme(numberOfColors: 40,
 ```swift
 let color: UIColor = UIColor.init(red: 245/255.0, green: 110/255.0, blue: 100/255.0, alpha: 1)
 
-color.lkt.generateColorScheme(numberOfColors: 10, colorType: .flat(brightnessFactor: 0.95))
+color.lkt.generateColorScheme(numberOfColors: 10)
 ```
 
 <img src="./Resources/generated_colors.png"/>

@@ -25,16 +25,21 @@ public struct HSVRange {
 public struct Lorikeet {
     let color: UIColor
     
-    let hue: CGFloat
-    let saturation: CGFloat
-    let brightnessFactor: CGFloat
-    let alpha: CGFloat
-    var defaultHSVRange: HSVRange {
+    public let hue: CGFloat
+    public let saturation: CGFloat
+    public let brightnessFactor: CGFloat
+    public let alpha: CGFloat
+    
+    public let complimentaryColor: UIColor
+
+    public var defaultHSVRange: HSVRange {
+        let saturationOffset: CGFloat = 0.05
+        let brightnessOffset: CGFloat = 0.1
         return HSVRange(hueRange: (0, 1),
-                        saturationRange: (min: max(self.saturation - 0.1, 0),
-                                          max: min(self.saturation + 0.1, 1.0)),
-                        brightnessRange: (min: max(self.saturation - 0.1, 0),
-                                          max: min(self.brightnessFactor + 1, 1.0)))
+                        saturationRange: (min: max(self.saturation - saturationOffset, 0),
+                                          max: min(self.saturation + saturationOffset, 1.0)),
+                        brightnessRange: (min: max(self.brightnessFactor - brightnessOffset, 0),
+                                          max: min(self.brightnessFactor + brightnessOffset, 1.0)))
     }
     
     init(_ color: UIColor) {
@@ -52,6 +57,13 @@ public struct Lorikeet {
         self.brightnessFactor = brightness
         self.color = color
         self.alpha = alpha
+        
+        let newHue = (self.hue + 180/360) - 1.0
+
+        self.complimentaryColor = UIColor(hue: newHue,
+                                          saturation: self.saturation,
+                                          brightness: self.brightnessFactor,
+                                          alpha: self.alpha)
         
     }
 
