@@ -34,7 +34,7 @@ public struct Lorikeet {
 
     public var defaultHSVRange: HSVRange {
         let saturationOffset: CGFloat = 0.05
-        let brightnessOffset: CGFloat = 0.1
+        let brightnessOffset: CGFloat = 0.05
         return HSVRange(hueRange: (0, 1),
                         saturationRange: (min: max(self.saturation - saturationOffset, 0),
                                           max: min(self.saturation + saturationOffset, 1.0)),
@@ -184,7 +184,7 @@ public struct Lorikeet {
             let maxRetries = 30
             var retries = 0
             
-            var offset: Float = 1.5
+            var offset: Float = 4
             
             let offsetOffset: Float = 0.01
             
