@@ -179,16 +179,12 @@ public struct Lorikeet {
                 return
             }
 
-            let originalMinColorDistance: Float = 90.0
+            let originalMinColorDistance: Float = 100.0
             var minColorDistance: Float = originalMinColorDistance
-            let maxRetries = 30
+            let maxRetries = 40
             var retries = 0
             
-            var offset: Float = 4
-            
-            let offsetOffset: Float = 0.01
-            
-            let minOffset: Float = offset - Float(maxRetries) * offsetOffset
+            let offset: Float = 1
             
             while colors.count != numberOfColors {
                 let color = self.color.lkt.generateRandomMatchingColor(hsvRange: range)
@@ -210,10 +206,6 @@ public struct Lorikeet {
                         // print("failed to get colors with diff: \(minDifference)")
                         retries = 0
                         minColorDistance -= offset
-                        
-                        if offset > minOffset {
-                            offset -= offsetOffset
-                        }
                     }
                     
                 } else {
