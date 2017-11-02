@@ -10,15 +10,15 @@ import UIKit
 
 public struct HSVRange {
     public let hueRange: (min: CGFloat, max: CGFloat)
-    public let saturationRange: (min: CGFloat, max: CGFloat)
-    public let brightnessRange: (min: CGFloat, max: CGFloat)
+    public let saturationOffset: CGFloat
+    public let brightnessOffset: CGFloat
     
     public init(hueRange: (min: CGFloat, max: CGFloat),
-                saturationRange: (min: CGFloat, max: CGFloat),
-                brightnessRange: (min: CGFloat, max: CGFloat)) {
+                saturationOffset: CGFloat,
+                brightnessOffset: CGFloat) {
         self.hueRange = hueRange
-        self.saturationRange = saturationRange
-        self.brightnessRange = brightnessRange
+        self.saturationOffset = saturationOffset
+        self.brightnessOffset = brightnessOffset
     }
 }
 
@@ -33,13 +33,10 @@ public struct Lorikeet {
     public let complimentaryColor: UIColor
 
     public var defaultHSVRange: HSVRange {
-        let saturationOffset: CGFloat = 0.00
-        let brightnessOffset: CGFloat = 0.05
+
         return HSVRange(hueRange: (0, 1),
-                        saturationRange: (min: max(self.saturation - saturationOffset, 0),
-                                          max: min(self.saturation + saturationOffset, 1.0)),
-                        brightnessRange: (min: max(self.brightnessFactor - brightnessOffset, 0),
-                                          max: min(self.brightnessFactor + brightnessOffset, 1.0)))
+                        saturationOffset: 0.0,
+                        brightnessOffset: 0.0)
     }
     
     init(_ color: UIColor) {
@@ -145,6 +142,14 @@ public struct Lorikeet {
         }
     }
     
+    
+    /// # Usage:
+    ///         color.lkt.generateRandomMatchingColor(hsvRange: hsvRange)
+    ///
+    /// - Parameter hsvRange: A structure specifying what "Match" in 
+    ///         `color.lkt.generateRandomMatchingColor`
+    /// means
+    /// - Returns: A color matching "color"
     public func generateRandomMatchingColor(hsvRange: HSVRange? = nil) -> UIColor {
         let range = hsvRange ?? self.defaultHSVRange
 
@@ -153,8 +158,8 @@ public struct Lorikeet {
         }
         
         return Utils.hsv2Color(h: randBetweenZeroAndOne() * range.hueRange.max + range.hueRange.min,
-                               s: randBetweenZeroAndOne() * range.saturationRange.max + range.saturationRange.min,
-                               v: randBetweenZeroAndOne() * range.brightnessRange.max + range.brightnessRange.min,
+                               s: randBetweenZeroAndOne() * (self.saturation + range.saturationOffset) + self.saturation - range.saturationOffset,
+                               v: randBetweenZeroAndOne() * (self.brightnessFactor + range.brightnessOffset) + self.brightnessFactor - range.brightnessOffset,
                                alpha: self.alpha)
 
     }
