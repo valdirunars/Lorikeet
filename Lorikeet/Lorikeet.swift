@@ -12,6 +12,14 @@ public struct HSVRange {
     public let hueRange: (min: CGFloat, max: CGFloat)
     public let saturationRange: (min: CGFloat, max: CGFloat)
     public let brightnessRange: (min: CGFloat, max: CGFloat)
+    
+    public init(hueRange: (min: CGFloat, max: CGFloat),
+                saturationRange: (min: CGFloat, max: CGFloat),
+                brightnessRange: (min: CGFloat, max: CGFloat)) {
+        self.hueRange = hueRange
+        self.saturationRange = saturationRange
+        self.brightnessRange = brightnessRange
+    }
 }
 
 public struct Lorikeet {
