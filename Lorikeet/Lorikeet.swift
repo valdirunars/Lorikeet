@@ -73,6 +73,8 @@ public struct Lorikeet {
             complimentaryBrightness = self.brightnessFactor
         } else if self.brightnessFactor > 0.4 {
             complimentaryBrightness = 0.7
+        } else if brightness > 0.1 {
+            complimentaryBrightness = 0.95
         } else {
             complimentaryBrightness = 1.0
         }
