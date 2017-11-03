@@ -9,10 +9,19 @@
 import UIKit
 
 public struct HSVRange {
+    /// A range representing possible hue values for generated colors
     public let hueRange: (min: CGFloat, max: CGFloat)
+    
+    /// The amount colors can vary in saturation
     public let saturationOffset: CGFloat
+    
+    /// The amount colors can vary in brightness
     public let brightnessOffset: CGFloat
     
+    /// - Parameters:
+    ///   - hueRange: A range representing possible hue values for generated colors
+    ///   - saturationOffset: The amount colors can vary in saturation
+    ///   - brightnessOffset: The amount colors can vary in brightness
     public init(hueRange: (min: CGFloat, max: CGFloat),
                 saturationOffset: CGFloat,
                 brightnessOffset: CGFloat) {
@@ -57,9 +66,11 @@ public struct Lorikeet {
         
         let newHue = (self.hue + 180/360) - 1.0
 
+        let complimentaryBrightness: CGFloat = self.brightnessFactor > 0.5 ? 0.0 : 1.0
+
         self.complimentaryColor = UIColor(hue: newHue,
                                           saturation: self.saturation,
-                                          brightness: 1.0 - self.brightnessFactor,
+                                          brightness: complimentaryBrightness,
                                           alpha: self.alpha)
         
     }
