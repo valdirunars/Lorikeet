@@ -90,7 +90,7 @@ color.lkt.generateColorScheme(numberOfColors: 15,
 
 ### Screenshots
 
-Making text readable using random colors:
+#### Making text readable using random colors:
 
 ```swift
 let label = UILabel(frame: frame)
@@ -111,7 +111,7 @@ label.textColor = label.backgroundColor!
 
 <img src="./Resources/readable_text.png"/>
 
-Generating colors:
+#### Generating colors:
 
 ```swift
 let color: UIColor = UIColor(red: 245/255.0, green: 110/255.0, blue: 100/255.0, alpha: 1)
