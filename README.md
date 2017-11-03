@@ -6,7 +6,6 @@ Lightweight framework for generating visually aesthetic color-schemes in Swift
 
 ## Requirements
 
-- Swift 3
 - UIKit
 
 ## Features
@@ -24,9 +23,12 @@ What can Lorikeet do for you
 ### Carthage
 In your `Cartfile` put:
 
+Swift 3:
 ```
 github "valdirunars/Lorikeet"
 ```
+
+For Swift 4 see "Manual" install
 
 ### Manual
 Copy the `./Lorikeet` folder 😁🗂
