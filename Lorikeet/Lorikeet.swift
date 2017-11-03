@@ -70,7 +70,7 @@ public struct Lorikeet {
         if self.brightnessFactor > 0.75 {
             complimentaryBrightness = 1 - self.brightnessFactor
         } else {
-            complimentaryBrightness = 0g.95
+            complimentaryBrightness = 0.95
         }
 
         self.complimentaryColor = UIColor(hue: newHue,
