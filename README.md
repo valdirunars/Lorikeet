@@ -91,7 +91,7 @@ color.lkt.generateColorScheme(numberOfColors: 15,
 ### Screenshot
 
 ```swift
-let color: UIColor = UIColor.init(red: 245/255.0, green: 110/255.0, blue: 100/255.0, alpha: 1)
+let color: UIColor = UIColor(red: 245/255.0, green: 110/255.0, blue: 100/255.0, alpha: 1)
 
 color.lkt.generateColorScheme(numberOfColors: 10)
 ```
