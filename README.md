@@ -11,7 +11,7 @@ Lightweight framework for generating visually aesthetic color-schemes in Swift
 ## Features
 What can Lorikeet do for you
 
-- Calculate visual color difference
+- Calculate visual color difference ([wikipedia](https://en.wikipedia.org/wiki/Color_difference))
     - Algorithms:
         - CIE76
         - CIE94
