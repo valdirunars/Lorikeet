@@ -66,7 +66,7 @@ public struct Lorikeet {
         
         let newHue = (self.hue + 180/360) - 1.0
 
-        let complimentaryBrightness: CGFloat = self.brightnessFactor > 0.5 ? 0.0 : 1.0
+        let complimentaryBrightness: CGFloat = self.brightnessFactor >= 0.5 ? 0.0 : 1.0
 
         self.complimentaryColor = UIColor(hue: newHue,
                                           saturation: self.saturation,
@@ -170,12 +170,14 @@ public struct Lorikeet {
         
         let minSaturation = self.saturation - range.saturationOffset
         let maxSaturation = self.saturation + range.saturationOffset
+        let saturationRange = maxSaturation - minSaturation
         
         let minBrightness = self.brightnessFactor - range.brightnessOffset
         let maxBrightness = self.brightnessFactor + range.brightnessOffset
+        let brightnessRange = maxBrightness - minBrightness
         
-        let saturation = randBetweenZeroAndOne() * maxSaturation + minSaturation
-        let brightness = randBetweenZeroAndOne() * maxBrightness + minBrightness
+        let saturation = randBetweenZeroAndOne() * saturationRange + minSaturation
+        let brightness = randBetweenZeroAndOne() * brightnessRange + minBrightness
         
         return Utils.hsv2Color(h: randBetweenZeroAndOne() * range.hueRange.max + range.hueRange.min,
                                s: saturation,
