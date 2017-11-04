@@ -6,13 +6,12 @@ Lightweight framework for generating visually aesthetic color-schemes in Swift
 
 ## Requirements
 
-- Swift 3
 - UIKit
 
 ## Features
 What can Lorikeet do for you
 
-- Calculate visual color difference
+- Calculate visual color difference ([wikipedia](https://en.wikipedia.org/wiki/Color_difference))
     - Algorithms:
         - CIE76
         - CIE94
@@ -24,9 +23,12 @@ What can Lorikeet do for you
 ### Carthage
 In your `Cartfile` put:
 
+Swift 3:
 ```
 github "valdirunars/Lorikeet"
 ```
+
+For Swift 4 see "Manual" install
 
 ### Manual
 Copy the `./Lorikeet` folder 😁🗂
@@ -90,7 +92,7 @@ color.lkt.generateColorScheme(numberOfColors: 15,
 
 ### Screenshots
 
-Making text readable using random colors:
+#### Making text readable using random colors:
 
 ```swift
 let label = UILabel(frame: frame)
@@ -111,7 +113,7 @@ label.textColor = label.backgroundColor!
 
 <img src="./Resources/readable_text.png"/>
 
-Generating colors:
+#### Generating colors:
 
 ```swift
 let color: UIColor = UIColor(red: 245/255.0, green: 110/255.0, blue: 100/255.0, alpha: 1)
