@@ -64,7 +64,7 @@ public struct Lorikeet {
         self.color = color
         self.alpha = alpha
         
-        let newHue = (self.hue + 180/360) - 1.0
+        let newHue = (self.hue + 180/360) <= 1 ? (self.hue + 180/360) : (self.hue + 180/360) - 1
 
         let complimentaryBrightness: CGFloat
         if self.brightnessFactor > 0.75 {
