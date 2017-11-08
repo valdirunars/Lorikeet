@@ -26,6 +26,7 @@ What can Lorikeet do for you
 - Generate color schemes
 
 ## Installation
+For Swift 4 see "Manual" install
 
 ### Carthage
 In your `Cartfile` put:
@@ -35,7 +36,12 @@ Swift 3:
 github "valdirunars/Lorikeet"
 ```
 
-For Swift 4 see "Manual" install
+### CocoaPods
+In you `Podfile`
+
+```
+pod 'Firebase/AdMob'
+```
 
 ### Manual
 Copy the `./Lorikeet` folder 😁🗂
