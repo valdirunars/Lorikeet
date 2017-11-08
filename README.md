@@ -1,6 +1,5 @@
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg)](https://github.com/Carthage/Carthage)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/Lorikeet.svg)](https://cocoapods.org/pods/Lorikeet)
-[![Swift 3.1](https://img.shields.io/badge/Swift-3.1-orange.svg?style=flat)](https://developer.apple.com/swift/)
 [![Platforms iOS](https://img.shields.io/badge/Platforms-iOS-lightgray.svg?style=flat)](http://www.apple.com/ios/)
 [![License MIT](https://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat)](https://opensource.org/licenses/MIT)
 
@@ -31,7 +30,6 @@ For Swift 4 see "Manual" install
 ### Carthage
 In your `Cartfile` put:
 
-Swift 3:
 ```
 github "valdirunars/Lorikeet"
 ```
