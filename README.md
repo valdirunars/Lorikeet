@@ -38,7 +38,7 @@ github "valdirunars/Lorikeet"
 In you `Podfile`
 
 ```
-pod 'Firebase/AdMob'
+pod 'Lorikeet'
 ```
 
 ### Manual
