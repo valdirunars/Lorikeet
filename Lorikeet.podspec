@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name             = "Lorikeet"
-s.version          = "0.1.24"
+s.version          = "0.2.25"
 s.summary          = "Lightweight framework for generating visually aesthetic color-schemes in Swift"
 s.description      = "Lightweight framework for generating visually aesthetic color-schemes in Swift"
 s.homepage         = "https://github.com/valdirunars/Lorikeet"
