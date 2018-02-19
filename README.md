@@ -25,7 +25,6 @@ What can Lorikeet do for you
 - Generate color schemes
 
 ## Installation
-For Swift 4 see "Manual" install
 
 ### Carthage
 In your `Cartfile` put:
