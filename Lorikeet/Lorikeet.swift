@@ -81,9 +81,9 @@ public struct Lorikeet {
     }
 
     private static func rgba(for color: UIColor) -> [Float] {
-        var rgba: [CGFloat] = [0,0,0,0]
-        color.getRed(&rgba[0], green: &rgba[1], blue: &rgba[2], alpha: &rgba[3])
-        return rgba.map { float -> Float in Float(float) }
+        var (r, g, b, a): (CGFloat, CGFloat, CGFloat, CGFloat) = (0,0,0,0)
+        color.getRed(&r, green: &g, blue: &b, alpha: &a)
+        return [r, g, b, a].map { float -> Float in Float(float) }
     }
 
     private static func xyz(for uiColor: UIColor) -> [Float] {
